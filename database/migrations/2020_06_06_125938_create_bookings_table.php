@@ -17,8 +17,9 @@ class CreateBookingsTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->nullable();
             $table->bigInteger('table_id')->nullable();
-            $table->date('date')->nullable();
-            $table->time('time')->nullable();
+            $table->string('date')->nullable();
+            $table->string('time')->nullable();
+            $table->enum('status', ['pending', 'accepted', 'declined', 'rescheduled'])->default('pending');
             $table->timestamps();
         });
     }

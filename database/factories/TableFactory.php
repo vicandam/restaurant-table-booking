@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Table::class, function (Faker $faker) {
     return [
-        //
+        'capacity' => $faker->randomDigit,
+        'status' => 'Available'
     ];
 });

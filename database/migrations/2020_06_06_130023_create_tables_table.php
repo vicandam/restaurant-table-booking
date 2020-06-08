@@ -16,7 +16,7 @@ class CreateTablesTable extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('capacity');
-            $table->enum('status', ['Unavailable','Available'])->default('Available');
+            $table->enum('status', ['Available', 'Occupied', 'Book'])->default('Available');
             $table->timestamps();
         });
     }
