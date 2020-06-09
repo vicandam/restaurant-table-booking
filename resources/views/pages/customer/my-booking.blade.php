@@ -66,7 +66,7 @@
                         <div class="card bg-default text-white mb-3">
                             <div class="card-body" style="color: #0f0f0f">
                                 <div class="row">
-                                    <div class="col-md-6">@{{ booking.status }}</div>
+                                    <div class="col-md-6"><small>@{{ booking.status }}</small></div>
                                     <div class="col-md-6" v-if="booking.status == 'rescheduled'">
                                         <button type="button" @click="setSelection(booking)" data-toggle="modal" data-target="#acceptDeclineModal" class="btn btn-outline-primary">
                                             <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -138,7 +138,6 @@
                     axios.get('api/booking').then((response) => {
                         let data = response.data.booking;
                         _this.bookings = data;
-                        console.log('booking: ', data);
                     })
                 },
 
@@ -149,15 +148,15 @@
                         let data = response.data.table;
 
                         _this.tables = data;
-
-                        console.log('data: ', data)
                     })
                 },
                 setSelection: function(booking) {
                     this.bookingId = booking.id;
                     this.tableId   = booking.table_id;
                 },
+
                 updateBooking: function () {
+                    this.showLoadingAlert(10000);
                     let _this = this;
 
                     let attributes = {
@@ -168,19 +167,16 @@
                     axios.patch('api/booking/' + this.bookingId, attributes).then(() => {
                         this.fetchBookings();
 
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'success',
-                            title: 'Booking accepted.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        _this.showLoadingAlert(0);
+                        _this.showSuccessAlert();
                     })
 
                     $('#acceptDeclineModal').modal('hide');
                 },
                 saveBooking: function () {
                     let _this = this;
+                    this.showLoadingAlert(10000);
+                    $('#bookModal').modal('hide');
 
                     let attributes = {
                         capacity: this.booking.capacity,
@@ -193,16 +189,29 @@
                         let data = response.data.booking;
                         this.fetchBookings();
 
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'success',
-                            title: 'Booking successfully created.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        _this.showLoadingAlert(0);
+                        _this.showSuccessAlert();
                     })
+                },
 
-                    $('#bookModal').modal('hide');
+                showLoadingAlert: function (timer) {
+                    swal.fire({
+                        title: 'Processing please wait.',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        timer: timer,
+                        onOpen: () => {
+                            timer > 0 ? swal.showLoading() : ''
+                        }
+                    })
+                },
+                showSuccessAlert: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Finished!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
                 }
             }
         })

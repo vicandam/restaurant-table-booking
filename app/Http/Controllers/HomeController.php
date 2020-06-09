@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if (auth()->user()->role == 'admin') {
+            return view('pages.admin.all-booking');
+        } else {
+            return view('pages.customer.my-booking');
+        }
     }
 }

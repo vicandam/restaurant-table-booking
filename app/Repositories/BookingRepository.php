@@ -4,8 +4,10 @@ namespace App\Repositories;
 
 use App\Booking;
 use App\Mail\AcceptBookingRequestNotification;
+use App\Mail\AcceptedBookingRescheduledNotification;
 use App\Mail\BookingRequestNotification;
 use App\Mail\DeclineBookingRequestNotification;
+use App\Mail\DeclinedBookingRescheduledNotification;
 use App\Mail\RescheduleBookingRequestNotification;
 use App\Table;
 use App\User;
@@ -75,9 +77,19 @@ class BookingRepository extends BaseRepository
             $table->status = 'Occupied';
             $table->save();
 
-            Mail::to($booking->user->email)->send(new AcceptBookingRequestNotification());
+            /** Determine which user to be send the email notification if its booking/reschedule accepted/declined or */
+            if (auth()->user()->role == 'admin') {
+                Mail::to(auth()->user()->email)->send(new AcceptedBookingRescheduledNotification());
+            } else {
+                Mail::to($booking->user->email)->send(new AcceptBookingRequestNotification());
+            }
         } else if ($request->status == 'declined') {
-            Mail::to($booking->user->email)->send(new DeclineBookingRequestNotification());
+            if (auth()->user()->role == 'admin') {
+                Mail::to(auth()->user()->email)->send(new DeclinedBookingRescheduledNotification());
+            } else {
+                Mail::to($booking->user->email)->send(new DeclineBookingRequestNotification());
+            }
+
         } else if ($request->status == 'rescheduled'){
             $booking->date   = $request->date;
             $booking->time   = $request->time;

@@ -23,16 +23,17 @@
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Start Bootstrap</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+    <a class="navbar-brand" href="index.html">Restaurant Booking</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
     ><!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
+        <div class="input-group d-none">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
             </div>
         </div>
     </form>
+    <div><span style="color: #ffffff">{{ auth()->user()->name }}</span></div>
     <!-- Navbar-->
     <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown">
@@ -83,7 +84,7 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Start Bootstrap
+                {{ auth()->user()->name }}
             </div>
         </nav>
     </div>
@@ -119,8 +120,11 @@
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="{{ asset('theme/dist/assets/demo/datatables-demo.js') }}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+{{--vue.js--}}
+<script src="{{ asset('js/vue-v2.6.11.js') }}"></script>
+
+{{--axios.js--}}
+<script src="{{ asset('js/axios-0.19.2.js') }}"></script>
 
 {{--Select 2--}}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>

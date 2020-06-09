@@ -142,6 +142,7 @@
                 },
 
                 updateStatus: function () {
+                    this.showLoadingAlert(10000);
                     let _this = this;
 
                     let attributes = {
@@ -156,16 +157,30 @@
                         let data = response.data.booking;
                         this.fetchBookings();
 
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'success',
-                            title: 'Booking accepted.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        _this.showLoadingAlert(0);
+                        _this.showSuccessAlert();
                     })
 
                     $('#statusModal').modal('hide');
+                },
+                showLoadingAlert: function (timer) {
+                    swal.fire({
+                        title: 'Processing please wait.',
+                        allowEscapeKey: false,
+                        allowOutsideClick: false,
+                        timer: timer,
+                        onOpen: () => {
+                            timer > 0 ? swal.showLoading() : ''
+                        }
+                    })
+                },
+                showSuccessAlert: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Finished!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
                 }
             }
         })
