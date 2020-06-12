@@ -7,6 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Booking::class, function (Faker $faker) {
     return [
-        //
+        'user_id' => 1,
+        'table_id' => 1,
+        'status' => 'pending'
     ];
 });

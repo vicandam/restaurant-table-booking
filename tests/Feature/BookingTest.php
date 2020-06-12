@@ -34,7 +34,6 @@ class BookingTest extends TestCase
             ->signIn($this)
             ->createBooking();
 
-
         $attributes = [
             'table' => 1,
             'date' => '07/01/2020',
@@ -42,12 +41,12 @@ class BookingTest extends TestCase
         ];
 
         $response = $this->post('api/booking', $attributes);
-//        dd('testing');
-//        $data = $response->getOriginalContent()['booking'];
 
-//        $this->assertEquals($data->time, $attributes['time']);
+        $data = $response->getOriginalContent()['booking'];
+
+        $this->assertEquals($data->time, $attributes['time']);
         $response->assertOk();
-//        $response->assertStatus(200);
+        $response->assertStatus(200);
     }
 
     public function test_retrieved_booking_list()
@@ -130,13 +129,15 @@ class BookingTest extends TestCase
             ->createBooking();
 
         $attributes = [
-            'tableId' => 1
+            'tableId' => 1,
+            'status'  => 'accepted'
         ];
 
         $response = $this->patch('api/booking/' . $this->factory->booking->id, $attributes);
 
         $data = $response->getOriginalContent()['booking'];
-        $this->assertEquals($data['table_id'], $attributes['tableId']);
+
+        $this->assertEquals($data, $attributes['tableId']);
 
         $response->assertStatus(200);
     }

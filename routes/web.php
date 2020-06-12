@@ -28,8 +28,8 @@ Route::get('table', 'TableController@index')->name('table');
 
 Route::group(['middleware' => 'auth:web'], function() {
     Route::name('api.')->prefix('api')->group(function() {
-        Route::resource('table', 'api\TableController');
-        Route::resource('booking', 'api\BookingController');
+        Route::resource('table', 'api\TableController')->except(['create', 'show', 'edit']);
+        Route::resource('booking', 'api\BookingController')->only(['index', 'store', 'update']);
 
         Route::get('confirmed-booking', 'api\BookingController@confirmedBooking')->name('booking.confirmed');
         Route::get('pending-booking', 'api\BookingController@pendingBooking')->name('booking.pending');

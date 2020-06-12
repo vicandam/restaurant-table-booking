@@ -50,6 +50,8 @@ class TableTest extends TestCase
     public function test_retrieved_table_list()
     {
         $this->factory
+            ->createUser()
+            ->signIn($this)
             ->createTable();
 
         $attributes = [
@@ -92,6 +94,7 @@ class TableTest extends TestCase
     {
         $this->factory
             ->createUser()
+            ->signIn($this)
             ->createTable();
 
         $response = $this->delete('api/table/' . $this->factory->table->id);

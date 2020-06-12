@@ -54,10 +54,6 @@ class BookingRepository extends BaseRepository
     {
         Mail::to('vicajobs@gmail.com')->send(new BookingRequestNotification());
 
-        $table         = Table::find($request['table']);
-        $table->status = 'Book';
-        $table->save();
-
         return Booking::create([
             'user_id' => Auth::id(),
             'table_id' => $request['table'],
